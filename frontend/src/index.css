@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "DM Sans", sans-serif;
+  --font-display: "Manrope", sans-serif;
+  --color-forest-50: #f0f7f2;
+  --color-forest-100: #dceee0;
+  --color-forest-200: #b9ddc1;
+  --color-forest-500: #43875d;
+  --color-forest-600: #34724c;
+  --color-forest-700: #295a3e;
+  --color-forest-800: #224c35;
+  --color-ink: #1d2824;
+  --color-muted: #7e8983;
+  --color-canvas: #f4f4ef;
+  --color-line: #e7e9e2;
+  --color-sand: #f3eee3;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: #f4f4ef; color: #1d2824; font-family: "DM Sans", sans-serif; }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+::selection { background: #dceee0; }
+.print-only { display: none; }
+@media print {
+  body { background: white !important; }
+  body * { visibility: hidden !important; }
+  .no-print { display: none !important; }
+  .print-only, .print-only * { visibility: visible !important; }
+  .print-only { display: block !important; position: absolute; inset: 0; width: 100%; padding: 0; }
+  @page { margin: 18mm; }
+}

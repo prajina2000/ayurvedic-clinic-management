@@ -1,0 +1,6 @@
+import { Router } from 'express';
+import { allowRoles, authenticate } from '../middleware/auth.js';
+import { addMedicine, addPharmacySupplier, cancelPharmacyBill, createPharmacyBill, createPurchase, getPharmacyBill, listPharmacyBills, listPharmacyInventory, listPharmacyPurchases, listPharmacySuppliers, listPrescriptions, listPharmacyDoctors, pharmacyReports, recordPurchasePayment, searchPharmacyPatients, stock } from '../controllers/pharmacyController.js';
+const router=Router();router.use(authenticate,allowRoles('Admin','Pharmacist'));
+router.get('/stock',stock);router.get('/inventory',listPharmacyInventory);router.get('/prescriptions',listPrescriptions);router.get('/patients',searchPharmacyPatients);router.get('/doctors',listPharmacyDoctors);router.get('/suppliers',listPharmacySuppliers);router.post('/suppliers',addPharmacySupplier);router.get('/purchases',listPharmacyPurchases);router.post('/purchases/:id/payments',recordPurchasePayment);router.post('/medicines',addMedicine);router.post('/purchases',createPurchase);router.get('/reports',pharmacyReports);router.get('/bills',listPharmacyBills);router.post('/bills/:id/cancel',cancelPharmacyBill);router.get('/bills/:id',getPharmacyBill);router.post('/bills',createPharmacyBill);
+export default router;

@@ -1,0 +1,22 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Existing clinic records are kept in this JSONB compatibility model while
+// the API modules are migrated to dedicated relational models incrementally.
+model ClinicDocument {
+  collectionName String   @map("collection_name") @db.Text
+  documentId     String   @map("document_id") @db.Text
+  data           Json     @db.JsonB
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@id([collectionName, documentId], map: "clinic_documents_pkey")
+  @@index([collectionName, createdAt(sort: Desc)], map: "clinic_documents_collection_created_idx")
+  @@map("clinic_documents")
+}

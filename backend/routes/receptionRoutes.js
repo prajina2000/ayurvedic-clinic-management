@@ -1,0 +1,15 @@
+import { Router } from 'express';
+import { allowRoles, authenticate } from '../middleware/auth.js';
+import { validate } from '../middleware/validate.js';
+import { addPatient, listPatients, patientHistory, patientSchema } from '../controllers/patientController.js';
+import { addDepartment, changeTokenStatus, createToken, departments, listQueue, tokenSchema } from '../controllers/receptionController.js';
+const router=Router();router.use(authenticate);
+router.get('/departments',allowRoles('Admin','Receptionist','Doctor','Therapist'),departments);
+router.post('/departments',allowRoles('Admin'),addDepartment);
+router.get('/patients',allowRoles('Admin','Receptionist','Doctor','Therapist','Accountant'),listPatients);
+router.post('/patients',allowRoles('Admin','Receptionist'),validate(patientSchema),addPatient);
+router.get('/patients/:id/history',allowRoles('Admin','Doctor'),patientHistory);
+router.get('/tokens',allowRoles('Admin','Receptionist','Doctor'),listQueue);
+router.post('/tokens',allowRoles('Admin','Receptionist'),validate(tokenSchema),createToken);
+router.patch('/tokens/:id/status',allowRoles('Admin','Receptionist','Doctor'),changeTokenStatus);
+export default router;
